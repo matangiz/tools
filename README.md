@@ -93,7 +93,7 @@ Note that you can use the --username and --password argument for authentication 
 
 
 ```
-$ python3 rof.py sign --csr csr.pem
+$ python3 rof.py sign csr.pem
 
 ==================================================
 Root Of Factories
