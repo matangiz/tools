@@ -24,19 +24,32 @@ Directories structure under secure_factory_latest.tar downloaded file:
 This section describes detailed usages for each operation.
 * [Start](#Starts-root-of-factories-services)
 * [Create](#Creates-root-of-factories-certificate-authority)
-* [Sign](#Creates sign certificate using roof of factory certificate)
-* [Stop](#Stops root of factories services)
-* [Status](#Outputs status of the roof of factories services)
+* [Sign](#Creates-sign-certificate-using-roof-of-factory-certificate)
+* [Stop](#Stops-root-of-factories-services)
+* [Status](#Outputs-status-of-the-roof-of-factories-services)
 
 
 
-### Start root of factories services
+### Starts root of factories services
 
-For example,
+When running root of factories services for the fiest time you are required to configure basic authentication username and password.
+
 
 ```
-$ notes new blog how-to-handle-files golang,file
+$ python3 rof.py start --username exampleUser --password 12345678
+
+==================================================
+Root Of Factories
+==================================================
+Crating basic auth env file
+Generating JWT credentials for rof-hsm-service
+Creating network "pelion_root_of_factories_default" with the default driver
+Creating rof-hsm-db.postgres ... done
+Creating root-of-factories   ... done
+Creating rof-hsm-service     ... done
+
 ```
+ You can check the root of factories services status using the [Status](#Outputs-status-of-the-roof-of-factories-services) command
 
 ```markdown
 how-to-handle-files
@@ -51,197 +64,128 @@ Please do not remove `- Category: ...`, `- Tags: ...` and `- Created: ...` lines
 They are used by `notes` command (modifying them is OK).
 Default title is file name. You can edit the title and body of note as follows:
 
-```markdown
-How to handle files in Go
-=========================
-- Category: blog
-- Tags: golang, file
-- Created: 2018-10-28T07:19:27+09:00
-
-Please read documentation.
-GoDoc explains everything.
-```
-
-Note that every note is under the category directory of the note. When you change a category of note,
-you also need to adjust directory structure manually (move the note file to new category directory).
-
-For more details, please check `notes new --help`.
 
 
 ###  Creates root of factories certificate authority
 
-Let's say to open some notes you created.
-
-You can show the list of note paths with:
-
 ```
-$ notes list # or `notes ls`
-```
+$ python3 rof.py create --company ExampleCompany
 
-For example, now there is only one note so it shows one path
+==================================================
+Root Of Factories
+==================================================
+Please enter UI username:
+exampleUser
+Please enter UI password:
+12345678
+User: exampleUser Authenticated successfully
 
-```
-/Users/me/.local/share/notes-cli/blog/how-to-handle-files.md
-```
+ROF certificate authority created successfully
 
-Note that `/Users/<NAME>/.local/share` is a default XDG data directory on macOS or Linux and you can
-change it by setting `$NOTES_CLI_HOME` environment variable.
-
-To open the listed notes with your editor, `--edit` (or `-e`) is a quickest way.
-
-```
-$ notes list --edit
-$ notes ls -e
-```
-
-
-
-### Creates sign certificate using roof of factory certificate
-
-`notes list` also can show brief of notes to terminal.
-
-You can also show the full information of notes on terminal with `--full` (or `-f`) option.
-
-```
-$ notes list --full
-```
-
-For example,
-
-```
-/Users/me/.local/share/notes-cli/blog/how-to-handle-files.md
-- Category: blog
-- Tags: golang, file
-- Created: 2018-10-28T07:19:27+09:00
-
-How to handle files in Go
-=========================
-
-Please read documentation.
-GoDoc explains everything.
+-----BEGIN CERTIFICATE-----
+MIIBwzCCAWmgAwIBAgIQRj+YZC6ySd+VuhJ2iYXJ/zAKBggqhkjOPQQDAjA5MR4w
+HAYDVQQDDBVQZWxpb25Sb290T2ZGYWN0b3JpZXMxFzAVBgNVBAoMDkV4YW1wbGVD
+b21wYW55MB4XDTE5MTIxOTA5MzYyMloXDTQ5MTIxOTA5MzYyMlowOTEeMBwGA1UE
+AwwVUGVsaW9uUm9vdE9mRmFjdG9yaWVzMRcwFQYDVQQKDA5FeGFtcGxlQ29tcGFu
+eTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABG5BltxEhbYhYO3SEkb4ExJLdpKY
+kqFMJFV3wGvwBIo8rco+7srolKKFLfOe+3v/wuGAMwgnWmGv9iFCNgOp5AKjUzBR
+MB8GA1UdIwQYMBaAFNh+Jau5Ce26ECWfrXczRKGMPyv4MB0GA1UdDgQWBBTYfiWr
+uQntuhAln613M0ShjD8r+DAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMCA0gA
+MEUCIAGAHYq0oxo+9jUN96726rhce2FFkwvfKofFbvWYVptZAiEA4BFxeio9WnsJ
+qMaHO/Nv/8vbu8vY1VwDeMkgeYWSKvg=
+-----END CERTIFICATE-----
 
 ```
 
-It shows
+You can use the `-o` or `--output` argument to write roof of factories certificate to specific file
 
-- Full path to the note file
-- Metadata `Category`, `Tags` and `Created`
-- Title of note
-- Body of note (up to 10 lines)
 
-with colors.
+### Creates signed certificate using roof of factory certificate
 
-When output is larger and whole output cannot be shown in screen at once, `list` does paging for the
-output using `less` command (if available). This behavior can be customized by `$NOTES_CLI_PAGER`.
-
-When there are many notes, it outputs many lines. In the case, a pager tool like `less` is useful
-You can also use `less` with pipe explicitly to see the output per page. `-A` global option is short
-of `--always-color`.
 
 ```
-$ notes -A ls --full | less -R
+$ python3 rof.py sign --csr csr.pem
+
+==================================================
+Root Of Factories
+==================================================
+Please enter UI username:
+exampleUser
+Please enter UI password:
+12345678
+User: exampleUser Authenticated successfully
+
+CSR Signed successfully by root of factories
+
+Root of factories CA certificate:
+
+-----BEGIN CERTIFICATE-----
+MIIB7zCCAZagAwIBAgIRAP4frk13zkS1l8rzIOL9UpYwCgYIKoZIzj0EAwIwOTEe
+MBwGA1UEAwwVUGVsaW9uUm9vdE9mRmFjdG9yaWVzMRcwFQYDVQQKDA5FeGFtcGxl
+Q29tcGFueTAeFw0xOTEyMTkwOTQwMzdaFw00OTEyMTkwOTM2MjJaMGUxFDASBgNV
+BAMMC2ZhY3RvcnktMjM1MQwwCgYDVQQKDANBUk0xETAPBgNVBAsMCEFSTV9VTklU
+MRIwEAYDVQQHDAlURVNUX0NJVFkxCzAJBgNVBAgMAlNUMQswCQYDVQQGEwJJTDBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABNj7GD1n8f+FEz/fRcdhGJDB38d8qZW4
+77hyRHw84EeB3g+RRGQATyjeMwybxF3ynEbtkDYtt5u+6BnpyCJfNTSjUzBRMB8G
+A1UdIwQYMBaAFNh+Jau5Ce26ECWfrXczRKGMPyv4MB0GA1UdDgQWBBTKwkBJq4sc
+HoPDEfC/wcGsrY6eITAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMCA0cAMEQC
+IDh77PXOi0fX+b25YkhZILXi7l1dqUhid1Msib6fcWCHAiBmtkgRXalcTfMQrvRr
+xw5vvVxnow3/NVGbPYrxqRuFHA==
+-----END CERTIFICATE-----
+
+Factory certificate:
+
+-----BEGIN CERTIFICATE-----
+MIIBwzCCAWmgAwIBAgIQRj+YZC6ySd+VuhJ2iYXJ/zAKBggqhkjOPQQDAjA5MR4w
+HAYDVQQDDBVQZWxpb25Sb290T2ZGYWN0b3JpZXMxFzAVBgNVBAoMDkV4YW1wbGVD
+b21wYW55MB4XDTE5MTIxOTA5MzYyMloXDTQ5MTIxOTA5MzYyMlowOTEeMBwGA1UE
+AwwVUGVsaW9uUm9vdE9mRmFjdG9yaWVzMRcwFQYDVQQKDA5FeGFtcGxlQ29tcGFu
+eTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABG5BltxEhbYhYO3SEkb4ExJLdpKY
+kqFMJFV3wGvwBIo8rco+7srolKKFLfOe+3v/wuGAMwgnWmGv9iFCNgOp5AKjUzBR
+MB8GA1UdIwQYMBaAFNh+Jau5Ce26ECWfrXczRKGMPyv4MB0GA1UdDgQWBBTYfiWr
+uQntuhAln613M0ShjD8r+DAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMCA0gA
+MEUCIAGAHYq0oxo+9jUN96726rhce2FFkwvfKofFbvWYVptZAiEA4BFxeio9WnsJ
+qMaHO/Nv/8vbu8vY1VwDeMkgeYWSKvg=
+-----END CERTIFICATE-----
+
 ```
 
-When you want to see the all notes quickly, `--oneline` (or `-o`) may be more useful than `--full`.
-`notes ls --oneline` shows one brief of note per line.
+You can use the `-o` or `--output` argument to write signed certificate to specific file
 
-For example,
 
-```
-blog/how-to-handle-files.md golang,file How to handle files in Go
-```
-
-- 1st field indicates a relative path of note file from home directory with different colors.
-  The first part of the path is the category in green, and the second part is the file name in yellow.
-- 2nd field indicates comma-separated tags of the note. When note has no tag, it leaves as blank.
-- 3rd field is the title of note
-
-This is useful for checking many notes at a glance. When output is larger, `less` is used for paging
-the output if available.
-
-For more details, please see `notes list --help`.
 
 
 ### Stops root of factories services
 
-You can create a template of note at each category directory or at root. When `.template.md` file
-is put in a category directory or home, it is automatically inserted on `notes new`.
 
-For example, when `HOME/minutes/.template.md` is created with following content:
-
-```markdown
----
-
-- Agenda: 
-- Attendee: 
-
+```
+$ python3 rof.py stop
 
 ```
 
-Executing `notes new minutes weekly-meeting-2018-11-07` will create a new note with inserting the
-template like:
-
-```markdown
-weekly-meeting-2018-11-07
-=========================
-- Category: minutes
-- Tags:
-- Created: 2018-11-07T14:19:27+09:00
-
----
-
-- Agenda: 
-- Attendee: 
-```
-
-Template file at category directory is prioritized. For example, when `notes new minutes weekly-meeting-2018-11-07`
-is run in following situation,
-
-```
-HOME
-├── .template.md
-└── minutes
-    └── .template.md
-```
-
-`HOME/minutes/.template.md` is used rather than `HOME/.template.md`.
 
 
 ### Outputs status of the roof of factories services
 
-Finally you can save your notes as revision of Git repository.
+```
+$ python3 rof.py status
+
+==================================================
+Root Of Factories
+==================================================
+Secure-factory installed under:
+        /usr/local/arm/secure_factory
+Secure-factory docker containers:
+  Factory tool service status:
+        version: 2019.12.848
+        status: healthy
+
+  Hsm client service:
+        version: 398
+        status: healthy
+
+Basic authentication:
+        username: exampleUser
+        password: ********
 
 ```
-$ notes save
-```
-
-It saves all your notes under your `notes-cli` directory as Git repository.
-It adds all changes in notes and automatically creates commit.
-
-By default, it only adds and commits your notes to the repository. But if you set `origin` remote to
-the repository, it automatically pushes the notes to the remote.
-
-For more details, please see `notes save --help`.
-
-
-### Configure behavior with environment variables
-
-As described above, some behavior can be configurable with environment variables. Here is a table of
-all environment variables affecting behavior of `notes`. Variables starting with `$NOTES_` are dedicated
-for `notes` command. Others are general environment variables affecting `notes` behavior.
-When you want to disable integration of Git, an editor or a pager, please set empty string to the
-corresponding environment variable like `export NOTES_CLI_PAGER=`.
-
-| Name                | Default                                    | Description                                                                |
-|---------------------|--------------------------------------------|----------------------------------------------------------------------------|
-| `$NOTES_CLI_HOME`   | `notes-cli` under [XDG data dir][xdg-dirs] | Home directory of `notes`. All notes are stored in sub directories         |
-| `$NOTES_CLI_EDITOR` | None                                       | Your favorite editor command. It can contain options like `"vim -g"`       |
-| `$NOTES_CLI_GIT`    | `"git"`                                    | Git command path. It is used for saving notes as Git repository            |
-| `$NOTES_CLI_PAGER`  | `"less -R -F -X"`                          | Pager command for paging long output from `notes list`                     |
-| `$XDG_DATA_HOME`    | None                                       | When `$NOTES_CLI_HOME` is not set, it is used for home                     |
-| `$APPLOCALDATA`     | None                                       | Even if `$XDG_DATA_HOME` is not set, it is used for home on Windows        |
-| `$EDITOR`           | None                                       | When `$NOTES_CLI_EDITOR` is not set, it is referred to pick editor command |
-| `$PAGER`            | None                                       | When `$NOTES_CLI_PAGER` is not set, it is referred to pick pager command   |
-
-You can see the configurations by `notes config` command.
-
