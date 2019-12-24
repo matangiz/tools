@@ -18,6 +18,7 @@ Directories structure under secure_factory_latest.tar downloaded file:
 └── docs
 ```
 
+The root of factories services are dependent on secure-room running database and therfore you need to set the `FACTORY_HOME_DIR`
 
 ## Usage
 
