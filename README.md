@@ -19,6 +19,9 @@ Directories structure under secure_factory_latest.tar downloaded file:
 ```
 
 The root of factories services are dependent on secure-room running database and therfore you need to set the `FACTORY_HOME_DIR`
+```
+$ export FACTORY_HOME_DIR=<SECURE-ROOM-INSTALLATION-PATH>
+```
 
 ## Usage
 
@@ -29,6 +32,7 @@ This section describes detailed usages for each operation.
 * [Stop](#Stops-root-of-factories-services)
 * [Status](#Outputs-status-of-the-roof-of-factories-services)
 
+Note: You can use the `--help, -h` to get the description and usage example for each of those commands.
 
 
 ### Starts root of factories services
