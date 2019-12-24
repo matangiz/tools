@@ -24,7 +24,7 @@ Directories structure under secure_factory_latest.tar downloaded file:
 This section describes detailed usages for each operation.
 * [Start](#Starts-root-of-factories-services)
 * [Create](#Creates-root-of-factories-certificate-authority)
-* [Sign](#Creates-sign-certificate-using-roof-of-factory-certificate)
+* [Sign](#Creates-signed-certificate-using-roof-of-factory-certificate)
 * [Stop](#Stops-root-of-factories-services)
 * [Status](#Outputs-status-of-the-roof-of-factories-services)
 
@@ -50,19 +50,6 @@ Creating rof-hsm-service     ... done
 
 ```
  You can check the root of factories services status using the [Status](#Outputs-status-of-the-roof-of-factories-services) command
-
-```markdown
-how-to-handle-files
-===================
-- Category: blog
-- Tags: golang, file
-- Created: 2018-10-28T07:19:27+09:00
-
-```
-
-Please do not remove `- Category: ...`, `- Tags: ...` and `- Created: ...` lines and title.
-They are used by `notes` command (modifying them is OK).
-Default title is file name. You can edit the title and body of note as follows:
 
 
 
@@ -98,6 +85,7 @@ qMaHO/Nv/8vbu8vY1VwDeMkgeYWSKvg=
 ```
 
 You can use the `-o` or `--output` argument to write roof of factories certificate to specific file
+Note that you can use the --username and --password argument for authentication instead of the user input
 
 
 ### Creates signed certificate using roof of factory certificate
@@ -150,8 +138,8 @@ qMaHO/Nv/8vbu8vY1VwDeMkgeYWSKvg=
 
 ```
 
-You can use the `-o` or `--output` argument to write signed certificate to specific file
-
+You can use the `-o` or `--output` argument to write roof of factories certificate to specific file
+Note that you can use the --username and --password argument for authentication instead of the user input
 
 
 
@@ -160,6 +148,19 @@ You can use the `-o` or `--output` argument to write signed certificate to speci
 
 ```
 $ python3 rof.py stop
+
+==================================================
+Root Of Factories
+==================================================
+Stopping root-of-factories
+Stopping rof-hsm-service     ... done
+Stopping root-of-factories   ... done
+Stopping rof-hsm-db.postgres ... done
+Removing rof-hsm-service     ... done
+Removing root-of-factories   ... done
+Removing rof-hsm-db.postgres ... done
+Removing network pelion_root_of_factories_default
+
 
 ```
 
