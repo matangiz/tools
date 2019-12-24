@@ -1,6 +1,10 @@
 Roof Of Factories CLI Tool
 ======================================================
 
+## Description
+
+Root of factories certificate authority CLI tool for creating root certificate authority and signing certificate signing request (csr's) with the created CA using and HSM client service integrated with HSM and a database for storing the CA certificate. 
+
 ## Basic Usage
 Directories structure under secure_factory_latest.tar downloaded file:
 
