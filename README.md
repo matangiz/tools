@@ -22,9 +22,8 @@ Directories structure under secure_factory_latest.tar downloaded file:
 ## Usage
 
 This section describes detailed usages for each operation.
-
-* [Start](#Starts root of factories services)
-* [Create](#Creates root of factories certificate authority)
+* [Start](#Starts-root-of-factories-services)
+* [Create](#Creates-root-of-factories-certificate-authority)
 * [Sign](#Creates sign certificate using roof of factory certificate)
 * [Stop](#Stops root of factories services)
 * [Status](#Outputs status of the roof of factories services)
